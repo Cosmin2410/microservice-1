@@ -1,0 +1,17 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    environment:
+      - DB_PASS=${DB_PASS}
+    develop:
+      watch:
+        - path: ./server
+          action: rebuild
+          files:
+            - '**/*.go'
+            - 'go.mod'
+            - 'go.sum'
