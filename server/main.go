@@ -8,7 +8,6 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	_ "github.com/jackc/pgx/v5/stdlib"
-	"github.com/joho/godotenv"
 	"github.com/microservice/server/db"
 	"github.com/microservice/server/domain"
 )
@@ -43,10 +42,7 @@ func setupRouter(app *fiber.App) {
 }
 
 func main() {
-	err := godotenv.Load("../.env") // Adjust path if necessary
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
+	var err error
 
 	dsn := os.Getenv("DB_PASS")
 	if dsn == "" {
