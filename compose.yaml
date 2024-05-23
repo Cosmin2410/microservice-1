@@ -5,5 +5,5 @@ services:
       dockerfile: Dockerfile
     ports:
       - 8000:8000
-    environment:
-      - DB_PASS=${DB_PASS}
+    env_file:
+      - .env
