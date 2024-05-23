@@ -43,7 +43,7 @@ func setupRouter(app *fiber.App) {
 }
 
 func main() {
-	err := godotenv.Load("../.env") // Adjust path if necessary
+	err := godotenv.Load(".env") // Adjust path if necessary
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
