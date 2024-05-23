@@ -43,19 +43,24 @@ func setupRouter(app *fiber.App) {
 }
 
 func main() {
-	godotenv.Load("../.env")
-	var err error
+	err := godotenv.Load("../.env") // Adjust path if necessary
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 
 	dsn := os.Getenv("DB_PASS")
+	if dsn == "" {
+		log.Fatal("DB_PASS environment variable is not set")
+	}
+
 	DBConn, err = db.SetupDBConn(dsn)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	app := fiber.New()
-	app.Use(cors.New())
 	app.Use(cors.New(cors.Config{
-		AllowOrigins: "https://16.16.173.204:8000/",
+		AllowOrigins: "*", // Allow all origins for development
 		AllowHeaders: "Origin, Content-Type, Accept",
 		AllowMethods: "GET,POST,HEAD,PUT,DELETE,PATCH",
 	}))
@@ -64,6 +69,10 @@ func main() {
 
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello, World!")
+	})
+
+	app.Get("/health", func(c *fiber.Ctx) error {
+		return c.SendString("OK")
 	})
 
 	log.Fatal(app.Listen(":8000"))
