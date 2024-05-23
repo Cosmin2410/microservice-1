@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/joho/godotenv"
 	"github.com/microservice/server/db"
@@ -52,6 +53,12 @@ func main() {
 	}
 
 	app := fiber.New()
+	app.Use(cors.New())
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "https://16.16.173.204:8000/",
+		AllowHeaders: "Origin, Content-Type, Accept",
+		AllowMethods: "GET,POST,HEAD,PUT,DELETE,PATCH",
+	}))
 
 	setupRouter(app)
 
